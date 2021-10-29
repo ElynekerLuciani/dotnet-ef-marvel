@@ -7,7 +7,7 @@ namespace dotnet_ef_marvel.src.Database
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            var connection = "Server=.\\SQLEXPRESS2017; Initial Catalog=dbAPI;MultipleActiveResult=true;User Id=admin;Password=Freire2096#";
+
         }
 
         public DbSet<Hero> heroes { get; set; }

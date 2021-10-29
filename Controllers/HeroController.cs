@@ -1,4 +1,7 @@
+using System.Linq;
+using dotnet_ef_marvel.src.Database;
 using dotnet_ef_marvel.src.Dto;
+using dotnet_ef_marvel.src.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_ef_marvel.Controllers
@@ -7,10 +10,29 @@ namespace dotnet_ef_marvel.Controllers
     [Route("api/v1/heros")]
     public class HeroController
     {
-        [HttpPost]
-        public CreateHero Create(CreateHero hero)
+        private DataContext _context { get; set; }
+
+        public HeroController(DataContext context)
         {
-            return hero;
+            this._context = context;
+        }
+
+        [HttpPost]
+        public Hero Create(CreateHero hero)
+        {
+            var newHero = new Hero(hero);
+
+            _context.heroes.Add(newHero);
+            _context.SaveChanges();
+
+            return newHero;
+        }
+
+        [HttpGet("{id:int}")]
+        public Hero GetById(int id)
+        {
+            var result = _context.heroes.FirstOrDefault(h => h.Id == id);
+            return result;
         }
 
     }
